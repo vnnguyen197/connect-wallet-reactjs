@@ -1,0 +1,19 @@
+.btn{
+  width: 180px;
+  height: 35px;
+  border-radius: 50px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.btn:hover{
+  background-color: orange;
+  color: #fff;
+  transition: all 0.5s linear;
+}
+
+.btn-logout{
+  background-color: red;
+  color: #fff;
+}
