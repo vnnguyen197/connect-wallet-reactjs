@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { ethers } from 'ethers';
-import logoConnet from '../../assets/img/logoConnet.png';
+import logoConnet from '../../assets/img/logoConnect.png';
 import './styles.css';
 import ChangeNetwork from '../ChangeNetwork';
 
