@@ -1,14 +1,10 @@
 import { useState, useEffect } from "react";
-import { ethers } from "ethers";
+import toId from "../../utils/toId";
 import "./styles.css";
 
-const ConnectWallet = ({
-  isConnected,
-  setIsConnected,
-  setAccountAddress,
-  accountAddress,
-}) => {
+const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
   const [haveMetamask, sethaveMetamask] = useState(true);
+  const [clicked, setClicked] = useState(false);
   const { ethereum } = window;
   const checkMetamaskAvailability = async () => {
     if (!ethereum) {
@@ -16,54 +12,32 @@ const ConnectWallet = ({
     }
     sethaveMetamask(true);
   };
-  console.log(ethereum)
-  const connectWallet = async (chainId) => {
-    try {
-      if (!ethereum) {
-        sethaveMetamask(false);
-      }
-      const accounts = await ethereum.request({
-        method: "eth_requestAccounts",
-      });
-      console.log(accounts);
-      if (setAccountAddress) {
-        setAccountAddress(accounts[0]);
-      }
-      setIsConnected(true);
-    } catch (error) {
-      setIsConnected(false);
-    }
+  const logOut = async () => {
+    window.ethereum.request({
+      method: "eth_requestAccounts",
+      params: [
+        {
+          eth_accounts: {}
+        }
+      ]
+    });
   };
-  const handleChangeNetwork = () => {
-    connectWallet();
-  };
-
-  const handleChangeAccount = () => {
-    connectWallet();
-  };
-
-  const setListener = () => {
-    ethereum.on("chainChanged", handleChangeNetwork);
-    ethereum.on("accountsChanged", handleChangeAccount);
-  };
-
-  const removeListener = () => {
-    ethereum.removeListener("chainChanged", connectWallet);
-    ethereum.removeListener("accountsChanged", connectWallet);
-  };
-
   useEffect(() => {
     checkMetamaskAvailability();
-    setListener();
-    return () => removeListener;
   }, []);
-
+  console.log(haveMetamask);
   return (
     <>
       {haveMetamask ? (
         <>
           {isConnected ? (
-            <button className="btn">
+            <button
+              onClick={() => setClicked(!clicked)}
+              style={{
+                position: "relative",
+              }}
+              className="btn"
+            >
               {accountAddress.slice(0, 4)}...
               {accountAddress.slice(38, 42)}
             </button>

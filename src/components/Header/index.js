@@ -8,6 +8,7 @@ export default function Header({
   setIsConnected,
   setAccountAddress,
   accountAddress,
+  connectWallet,
 }) {
   return (
     <div className="header">
@@ -17,6 +18,7 @@ export default function Header({
       </div>
       <div className="connect">
         <ConnectWallet
+          connectWallet={connectWallet}
           setAccountAddress={setAccountAddress}
           accountAddress={accountAddress}
           isConnected={isConnected}

@@ -7,22 +7,26 @@ export default function WalletList({
   setIsConnected,
   setAccountAddress,
   accountAddress,
+  connectWallet
 }) {
   const [chains, setChains] = useState();
   const fetchChains = async () => {
     try {
       const chains = await fetcher("https://chainid.network/chains.json");
-      setChains(chains.splice(1, 32));
+      
+      setChains(chains.splice(0, 32));
     } catch (error) {}
   };
   useEffect(() => {
     fetchChains();
   }, []);
+  console.log(chains)
   return (
     <div className="wallet-list">
       {chains ? (
         chains.map((chain) => (
           <Chain
+          connectWallet={connectWallet}
             isConnected={isConnected}
             setIsConnected={setIsConnected}
             chain={chain}

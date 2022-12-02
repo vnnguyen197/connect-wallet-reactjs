@@ -18,9 +18,10 @@ export default function Chain({
   setIsConnected,
   accountAddress,
   setAccountAddress,
+  connectWallet,
 }) {
   const handleOnClick = () => {
-    addNetwork(chain)
+    addNetwork(chain);
   };
   return (
     <Card
@@ -42,34 +43,50 @@ export default function Chain({
         }}
       >
         <Stack direction={"row"} alignItems="center">
-          {chain.icon && (
-            <img
-              style={{ marginRight: 5 }}
-              src={iconSrc(chain.icon)}
-              width={20}
-              height={20}
-              alt=""
-            />
-          )}
-          <Typography variant="h6">{chain.name}</Typography>
+          <img
+            style={{ marginRight: 10 }}
+            src={iconSrc(chain.icon)}
+            width={20}
+            height={20}
+            alt=""
+          />
+          <Typography
+            sx={{
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+              fontWeight: 600
+            }}
+            variant="h6"
+          >
+            {chain.name}
+          </Typography>
         </Stack>
         <Stack mt={3} direction="row" justifyContent="center">
           <Stack>
-            <Typography sx={{ fontSize: 10 }}>ChainID:</Typography>
+            <Typography
+              sx={{
+                fontSize: 10,
+              }}
+            >
+              ChainID:
+            </Typography>
             {chain.chainId}
           </Stack>
           <Stack sx={{ marginLeft: 5 }}>
             <Typography sx={{ fontSize: 10 }}>Currency:</Typography>
-            {chain.nativeCurrency?.name}
+            {chain.nativeCurrency?.symbol}
           </Stack>
         </Stack>
       </CardContent>
       <CardActions
         sx={{
           display: "flex",
-          flex: 1,
           justifyContent: "center",
-          alignContent: "flex-end",
+          marginTop: "auto",
+          padding: 2,
         }}
       >
         {!isConnected ? (
@@ -78,6 +95,7 @@ export default function Chain({
             setAccountAddress={setAccountAddress}
             isConnected={isConnected}
             setIsConnected={setIsConnected}
+            connectWallet={connectWallet}
           />
         ) : (
           <Button
