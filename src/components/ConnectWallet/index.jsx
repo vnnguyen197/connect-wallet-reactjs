@@ -3,28 +3,26 @@ import toId from "../../utils/toId";
 import "./styles.css";
 
 const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
+  console.log("isConnected", isConnected);
   const [haveMetamask, sethaveMetamask] = useState(true);
   const [clicked, setClicked] = useState(false);
   const { ethereum } = window;
+
   const checkMetamaskAvailability = async () => {
     if (!ethereum) {
       sethaveMetamask(false);
     }
     sethaveMetamask(true);
   };
-  const logOut = async () => {
-    window.ethereum.request({
-      method: "eth_requestAccounts",
-      params: [
-        {
-          eth_accounts: {}
-        }
-      ]
-    });
-  };
+
+  const logout = () =>{
+    window.location.reload(false);
+  }
+
   useEffect(() => {
     checkMetamaskAvailability();
   }, []);
+
   console.log(haveMetamask);
   return (
     <>
@@ -44,6 +42,11 @@ const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
           ) : (
             <button className="btn" onClick={connectWallet}>
               Connect Wallet
+            </button>
+          )}
+          {isConnected && (
+            <button className="btn-logout" onClick={logout}>
+              Logout
             </button>
           )}
         </>
