@@ -73,11 +73,11 @@ export default function Chain({
             >
               ChainID:
             </Typography>
-            {chain.chainId}
+           <strong>{chain.chainId}</strong> 
           </Stack>
           <Stack sx={{ marginLeft: 5 }}>
             <Typography sx={{ fontSize: 10 }}>Currency:</Typography>
-            {chain.nativeCurrency?.symbol}
+            <strong>{chain.nativeCurrency?.symbol}</strong>
           </Stack>
         </Stack>
       </CardContent>

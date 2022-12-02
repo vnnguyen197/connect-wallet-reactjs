@@ -1,6 +1,6 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { addTokenFunction, sendTransaction } from "../../utils/ethereumMethods";
 
 export default function Infomation({ currentChain, sender }) {
@@ -10,6 +10,7 @@ export default function Infomation({ currentChain, sender }) {
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState("");
   const [gasPrice, setGasPrice] = useState("");
+
   return (
     <div style={{ position: "relative", marginLeft: 20 }}>
       <div
@@ -21,7 +22,7 @@ export default function Infomation({ currentChain, sender }) {
       >
         <Stack mt={0}>
           <Typography>Current Networks:</Typography>
-          <Typography>{currentChain}</Typography>
+          <Typography><strong>{currentChain}</strong></Typography>
         </Stack>
       </div>
       <div

@@ -8,7 +8,8 @@ function App() {
   const { ethereum } = window;
   const [isConnected, setIsConnected] = useState(false);
   const [accountAddress, setAccountAddress] = useState("");
-  const [currentChain, setCurrentChain] = useState(ethereum?.chainId)
+  const [currentChain, setCurrentChain] = useState(ethereum?.chainId);
+
   const connectWallet = async (chainId) => {
     try {
       const accounts = await ethereum.request({
@@ -23,8 +24,9 @@ function App() {
       setIsConnected(false);
     }
   };
+
   const handleChangeNetwork = (chainId) => {
-    setCurrentChain(chainId)
+    setCurrentChain(chainId);
     connectWallet();
   };
 
@@ -46,8 +48,9 @@ function App() {
     setListener();
     return () => removeListener;
   }, []);
+
   return (
-    <div className="App" style={{backgroundColor: 'beige'}}>
+    <div className="App" style={{ backgroundColor: "beige" }}>
       <Header
         accountAddress={accountAddress}
         setAccountAddress={setAccountAddress}
@@ -55,7 +58,7 @@ function App() {
         setIsConnected={setIsConnected}
         connectWallet={connectWallet}
       />
-      <div style={{margin: '20px auto', display: 'flex', width: '80%'}}>
+      <div style={{ margin: "20px auto", display: "flex", width: "80%" }}>
         <Infomation sender={accountAddress} currentChain={currentChain} />
         <WalletList
           accountAddress={accountAddress}

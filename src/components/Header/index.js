@@ -10,6 +10,7 @@ export default function Header({
   accountAddress,
   connectWallet,
 }) {
+  
   return (
     <div className="header">
       <div className="search">

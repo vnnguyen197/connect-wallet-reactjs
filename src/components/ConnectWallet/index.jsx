@@ -3,7 +3,6 @@ import toId from "../../utils/toId";
 import "./styles.css";
 
 const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
-  console.log("isConnected", isConnected);
   const [haveMetamask, sethaveMetamask] = useState(true);
   const [clicked, setClicked] = useState(false);
   const { ethereum } = window;
