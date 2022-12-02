@@ -47,7 +47,7 @@ function App() {
     return () => removeListener;
   }, []);
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor: 'beige'}}>
       <Header
         accountAddress={accountAddress}
         setAccountAddress={setAccountAddress}
