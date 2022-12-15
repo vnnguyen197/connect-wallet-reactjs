@@ -59,11 +59,12 @@ function App() {
         setIsConnected={setIsConnected}
         connectWallet={connectWallet}
       />
-      <div style={{ margin: "20px auto", display: "flex", width: "84%" }}>
-        <div>
+      <div className="content">
+        <div className="contentLeft">
           <AddToken sender={accountAddress} currentChain={currentChain} />
           <SendToken sender={accountAddress} currentChain={currentChain} />
         </div>
+        <div className="contentRight"> 
         <WalletList
           accountAddress={accountAddress}
           setAccountAddress={setAccountAddress}
@@ -71,6 +72,7 @@ function App() {
           setIsConnected={setIsConnected}
           connectWallet={connectWallet}
         />
+        </div>
       </div>
     </div>
   );

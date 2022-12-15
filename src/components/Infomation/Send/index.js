@@ -52,7 +52,14 @@ export default function SendToken(sender) {
   };
 
   return (
-    <Box>
+    <Box
+    style={{
+      background: "#cecece",
+      padding: 30,
+      borderRadius: 10,
+      marginTop: 20,
+    }}
+    >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
           value={value}
@@ -72,13 +79,13 @@ export default function SendToken(sender) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <div
+        {/* <div
           style={{
             background: "#cecece",
             padding: 30,
             borderRadius: 10,
           }}
-        >
+        > */}
           <Stack>
             <TextField
               style={{ marginTop: 5 }}
@@ -114,7 +121,7 @@ export default function SendToken(sender) {
               Send ETH
             </Button>
           </Stack>
-        </div>
+        {/* </div> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
         {/* <div

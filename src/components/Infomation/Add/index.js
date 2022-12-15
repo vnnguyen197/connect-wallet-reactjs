@@ -104,7 +104,7 @@ export default function AddToken({ currentChain }) {
   // }, []);
 
   return (
-    <div style={{ position: "relative", marginLeft: 20, marginBottom: 50 }}>
+    <div >
       <div
         style={{
           background: "#cecece",
