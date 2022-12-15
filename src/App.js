@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Header from "./components/Header";
-import Infomation from "./components/Infomation";
+import AddToken from "./components/Infomation/Add";
+import SendToken from "./components/Infomation/Send";
 import WalletList from "./components/WalletList";
 
 function App() {
@@ -58,8 +59,11 @@ function App() {
         setIsConnected={setIsConnected}
         connectWallet={connectWallet}
       />
-      <div style={{ margin: "20px auto", display: "flex", width: "80%" }}>
-        <Infomation sender={accountAddress} currentChain={currentChain} />
+      <div style={{ margin: "20px auto", display: "flex", width: "84%" }}>
+        <div>
+          <AddToken sender={accountAddress} currentChain={currentChain} />
+          <SendToken sender={accountAddress} currentChain={currentChain} />
+        </div>
         <WalletList
           accountAddress={accountAddress}
           setAccountAddress={setAccountAddress}

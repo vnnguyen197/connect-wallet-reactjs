@@ -5,7 +5,7 @@
     padding: 20px;
 }
 .search {
-    position: relative
+    position: relative;
 }
 .search input {
     outline: none;
@@ -24,4 +24,7 @@
 .connect{
     position: absolute;
     right: 20px;
+}
+.switch{
+    margin-left: 100px;
 }

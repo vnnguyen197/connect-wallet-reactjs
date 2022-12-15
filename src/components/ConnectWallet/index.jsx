@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
-import toId from "../../utils/toId";
+// import toId from "../../utils/toId";
+import Disconnect from "./Disconnect";
 import "./styles.css";
 
 const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
   const [haveMetamask, sethaveMetamask] = useState(true);
   const [clicked, setClicked] = useState(false);
   const { ethereum } = window;
-
   const checkMetamaskAvailability = async () => {
     if (!ethereum) {
       sethaveMetamask(false);
@@ -14,17 +14,12 @@ const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
     sethaveMetamask(true);
   };
 
-  const logout = () =>{
-    window.location.reload(false);
-  }
-
   useEffect(() => {
     checkMetamaskAvailability();
   }, []);
 
-  console.log(haveMetamask);
   return (
-    <>
+    <div className='container'>
       {haveMetamask ? (
         <>
           {isConnected ? (
@@ -43,16 +38,12 @@ const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
               Connect Wallet
             </button>
           )}
-          {isConnected && (
-            <button className="btn-logout" onClick={logout}>
-              Logout
-            </button>
-          )}
+          {isConnected && <Disconnect />}
         </>
       ) : (
         <p>Please Install MataMask</p>
       )}
-    </>
+    </div>
   );
 };
 
