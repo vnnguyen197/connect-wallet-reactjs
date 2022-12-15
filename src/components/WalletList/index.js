@@ -1,45 +1,33 @@
-import React, { useEffect, useState } from "react";
-import fetcher from "../../utils/fetcher";
+import React from "react";
 import Chain from "../Chain";
 import "./style.css";
-
+import { connectToNetworks } from "../../constants/networks";
 export default function WalletList({
   isConnected,
   setIsConnected,
   setAccountAddress,
   accountAddress,
   connectWallet,
+  currentChain
 }) {
 
-  const [chains, setChains] = useState();
-
-  const fetchChains = async () => {
-    try {
-      const chains = await fetcher("https://chainid.network/chains.json");
-
-      setChains(chains.splice(0, 32));
-    } catch (error) {}
-  };
-
-  useEffect(() => {
-    fetchChains();
-  }, []);
-
-  console.log(chains);
   
   return (
     <div className="wallet-list">
-      {chains ? (
-        chains.map((chain) => (
-          <Chain
-            connectWallet={connectWallet}
-            isConnected={isConnected}
-            setIsConnected={setIsConnected}
-            chain={chain}
-            setAccountAddress={setAccountAddress}
-            accountAddress={accountAddress}
-          />
-        ))
+      {connectToNetworks ? (
+        connectToNetworks.map((chain) => {if(!chain.hide){
+          return (
+            <Chain
+              connectWallet={connectWallet}
+              isConnected={isConnected}
+              setIsConnected={setIsConnected}
+              chain={chain}
+              setAccountAddress={setAccountAddress}
+              accountAddress={accountAddress}
+              disabled={currentChain===chain.name}
+            />
+          )
+        }})
       ) : (
         <>There is occured an error when fetch data</>
       )}

@@ -4,19 +4,25 @@ import Header from "./components/Header";
 import AddToken from "./components/Infomation/Add";
 import SendToken from "./components/Infomation/Send";
 import WalletList from "./components/WalletList";
+import { connectToNetworks } from "./constants/networks";
+import { getBalance } from "./utils/ethereumMethods";
+import toId from "./utils/toId";
 
 function App() {
   const { ethereum } = window;
   const [isConnected, setIsConnected] = useState(false);
   const [accountAddress, setAccountAddress] = useState("");
-  const [currentChain, setCurrentChain] = useState(ethereum?.chainId);
-
+  const [currentChain, setCurrentChain] = useState();
+  const [currentBlance, setCurrentBalance] = useState();
   const connectWallet = async (chainId) => {
     try {
       const accounts = await ethereum.request({
         method: "eth_requestAccounts",
       });
-      console.log(accounts);
+      if(!currentChain){
+        covertChainIdToName(ethereum?.chainId)
+      }
+      getBalance(accounts[0]).then((data) => setCurrentBalance(data));
       if (setAccountAddress) {
         setAccountAddress(accounts[0]);
       }
@@ -26,8 +32,17 @@ function App() {
     }
   };
 
-  const handleChangeNetwork = (chainId) => {
-    setCurrentChain(chainId);
+  const covertChainIdToName = async(chainId)=>{
+    const network = connectToNetworks.filter(
+      (x) => x.chainId === toId(chainId)
+    );
+    setTimeout(() => {
+      setCurrentChain(network?.[0]?.name);
+    }, 0);
+  }
+
+  const handleChangeNetwork = async (chainId) => {
+    await covertChainIdToName(chainId)
     connectWallet();
   };
 
@@ -58,10 +73,11 @@ function App() {
         isConnected={isConnected}
         setIsConnected={setIsConnected}
         connectWallet={connectWallet}
+        currentChain={currentChain}
       />
       <div className="content">
         <div className="contentLeft">
-          <AddToken sender={accountAddress} currentChain={currentChain} />
+          <AddToken sender={accountAddress}  currentBlance={currentBlance} currentChain={currentChain} />
           <SendToken sender={accountAddress} currentChain={currentChain} />
         </div>
         <div className="contentRight"> 
@@ -71,6 +87,7 @@ function App() {
           isConnected={isConnected}
           setIsConnected={setIsConnected}
           connectWallet={connectWallet}
+          currentChain={currentChain}
         />
         </div>
       </div>

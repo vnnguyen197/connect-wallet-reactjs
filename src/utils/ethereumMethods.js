@@ -1,13 +1,13 @@
 import iconSrc from "./icon";
 import toHex from "./toHex";
-
+import { ethers } from "ethers";
 const { ethereum } = window;
 
-const changeNetwork = async (chain) => {
+const changeNetworks = async (chain) => {
   try {
     await ethereum.request({
       method: "wallet_switchEthereumChain",
-      params: [{ chainId: toHex(chain.chainId) }],
+      params: [{ chainId: toHex(chain) }],
     });
   } catch (switchError) {
     if (switchError.code === 4902) {
@@ -37,7 +37,9 @@ const addNetwork = async (chain) => {
       method: "wallet_addEthereumChain",
       params: [params],
     });
-  } catch (error) {}
+  } catch (error) {
+
+  }
 };
 
 const addTokenFunction = async (tokenAddress) => {
@@ -85,4 +87,20 @@ const sendTransaction = async (sender, receiver, amount, gasPrice) => {
   } catch (error) {}
 };
 
-export { changeNetwork, addNetwork, addTokenFunction, sendTransaction };
+const getBalance = async (id, options = "latest") => {
+  try {
+    const txHash = await ethereum.request({
+      method: "eth_getBalance",
+      params: [id, options],
+    });
+    return ethers.utils.formatUnits(txHash, 18);
+  } catch (error) {}
+};
+
+export {
+  changeNetworks,
+  addNetwork,
+  addTokenFunction,
+  sendTransaction,
+  getBalance,
+};

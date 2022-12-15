@@ -19,6 +19,7 @@ export default function Chain({
   accountAddress,
   setAccountAddress,
   connectWallet,
+  disabled,
 }) {
   const handleOnClick = () => {
     addNetwork(chain);
@@ -57,7 +58,7 @@ export default function Chain({
               display: "-webkit-box",
               WebkitLineClamp: 1,
               WebkitBoxOrient: "vertical",
-              fontWeight: 600
+              fontWeight: 600,
             }}
             variant="h6"
           >
@@ -73,7 +74,7 @@ export default function Chain({
             >
               ChainID:
             </Typography>
-           <strong>{chain.chainId}</strong> 
+            <strong>{chain.chainId}</strong>
           </Stack>
           <Stack sx={{ marginLeft: 5 }}>
             <Typography sx={{ fontSize: 10 }}>Currency:</Typography>
@@ -101,6 +102,7 @@ export default function Chain({
           <Button
             onClick={() => handleOnClick()}
             variant="outlined"
+            disabled={disabled}
             startIcon={<AddIcon />}
           >
             Add network

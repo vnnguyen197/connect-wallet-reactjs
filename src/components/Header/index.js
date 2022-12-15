@@ -10,6 +10,7 @@ export default function Header({
   setAccountAddress,
   accountAddress,
   connectWallet,
+  currentChain
 }) {
   return (
     <div className="header">
@@ -17,7 +18,7 @@ export default function Header({
         <input placeholder="Search" />
         <SearchIcon />
       </div>
-      <div className="switch">{isConnected && <SwitchNetwork />}</div>
+      <div className="switch">{isConnected && <SwitchNetwork  currentChain={currentChain}/>}</div>
       <div className="connect">
         <ConnectWallet
           connectWallet={connectWallet}
