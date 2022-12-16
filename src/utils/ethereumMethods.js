@@ -79,6 +79,7 @@ const sendTransaction = async (sender, receiver, amount, gasPrice) => {
     value: (+amount * Math.pow(10, 18)).toString(16),
     gasPrice,
   };
+  console.log(params)
   try {
     const txHash = await ethereum.request({
       method: "eth_sendTransaction",

@@ -1,8 +1,9 @@
 .header {
     display: flex;
     background-color: rgb(113, 89, 253);
-    justify-content: center;
+    /* justify-content: center; */
     padding: 20px;
+    min-height: 35px;
 }
 .search {
     position: relative;
@@ -26,5 +27,5 @@
     right: 20px;
 }
 .switch{
-    margin-left: 100px;
+    margin-left: 35px;
 }

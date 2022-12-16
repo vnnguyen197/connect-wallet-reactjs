@@ -14,10 +14,10 @@ export default function Header({
 }) {
   return (
     <div className="header">
-      <div className="search">
+      {/* <div className="search">
         <input placeholder="Search" />
         <SearchIcon />
-      </div>
+      </div> */}
       <div className="switch">{isConnected && <SwitchNetwork  currentChain={currentChain}/>}</div>
       <div className="connect">
         <ConnectWallet

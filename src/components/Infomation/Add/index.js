@@ -2,8 +2,7 @@ import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useState } from "react";
 import { addTokenFunction } from "../../../utils/ethereumMethods";
-import { ethers } from "ethers";
-import * as Web3 from 'web3'
+import * as Web3 from "web3";
 
 const ABI = [
   {
@@ -66,35 +65,30 @@ const ABI = [
 ];
 
 export default function AddToken({ currentChain, currentBlance }) {
-  const { ethereum } = window;
   const [tokenAddress, setTokenAddress] = useState("");
-
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState({ name: "", symbol: "", decimals: "" });
   const getToken = async (e) => {
     setTokenAddress(e);
-    
     try {
       const web3 = new Web3("https://cloudflare-eth.com/");
-      const contract = new web3.eth.Contract(ABI, '0x8c75F05B81df7A8f026D124A2Fe630ddDFc120e9');
+      const contract = new web3.eth.Contract(ABI, e);
       const [name, symbol, decimals] = await Promise.all([
         contract.methods.name().call(),
         contract.methods.symbol().call(),
         contract.methods.decimals().call(),
       ]);
       setToken({ name, symbol, decimals });
-      console.log("name", name);
-      console.log("symbol", symbol);
-      console.log("decimals", decimals);
     } catch (error) {
-      console.log(error);
-      setToken(false);
+      setToken({
+        name: "",
+        symbol: "",
+        decimals: "",
+      });
     }
   };
-  console.log(token);
-
 
   return (
-    <div >
+    <div>
       <div
         style={{
           background: "#cecece",
@@ -130,6 +124,22 @@ export default function AddToken({ currentChain, currentBlance }) {
             variant="standard"
             value={tokenAddress}
             onChange={(e) => getToken(e.target.value)}
+          />
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Decimals"
+            variant="standard"
+            value={token.decimals}
+            disabled
+          />
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Symbols"
+            variant="standard"
+            value={token.symbol}
+            disabled
           />
           <Stack>
             <Button

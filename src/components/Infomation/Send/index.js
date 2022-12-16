@@ -41,16 +41,14 @@ function a11yProps(index) {
   };
 }
 
-export default function SendToken(sender) {
+export default function SendToken({sender}) {
   const [value, setValue] = useState(0);
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState("");
   const [gasPrice, setGasPrice] = useState("");
-
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
   return (
     <Box
     style={{

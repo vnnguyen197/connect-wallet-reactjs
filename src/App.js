@@ -66,7 +66,7 @@ function App() {
   }, []);
 
   return (
-    <div className="App" style={{ backgroundColor: "beige" }}>
+    <div className="App" style={{ backgroundColor: "beige", marginBottom:-20 }}>
       <Header
         accountAddress={accountAddress}
         setAccountAddress={setAccountAddress}
