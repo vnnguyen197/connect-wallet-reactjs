@@ -146,7 +146,7 @@ export default function AddToken({ currentChain, currentBlance }) {
               style={{ marginTop: 20 }}
               variant="outlined"
               // onClick={addToken}
-              onClick={() => addTokenFunction(tokenAddress)}
+              onClick={() => addTokenFunction(tokenAddress, token)}
             >
               Add your token
             </Button>
