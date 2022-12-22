@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useState } from "react";
-import { sendTransaction } from "../../../utils/ethereumMethods";
+import { sendTransaction, sendTransferToken } from "../../../utils/ethereumMethods";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -46,9 +46,11 @@ export default function SendToken({sender}) {
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState("");
   const [gasPrice, setGasPrice] = useState("");
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
+  
   return (
     <Box
     style={{
@@ -77,13 +79,6 @@ export default function SendToken({sender}) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        {/* <div
-          style={{
-            background: "#cecece",
-            padding: 30,
-            borderRadius: 10,
-          }}
-        > */}
           <Stack>
             <TextField
               style={{ marginTop: 5 }}
@@ -119,16 +114,8 @@ export default function SendToken({sender}) {
               Send ETH
             </Button>
           </Stack>
-        {/* </div> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        {/* <div
-          style={{
-            background: "#cecece",
-            padding: 30,
-            borderRadius: 10,
-          }}
-        >
           <Stack>
             <TextField
               style={{ marginTop: 5 }}
@@ -146,25 +133,16 @@ export default function SendToken({sender}) {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
-            <TextField
-              style={{ marginTop: 5 }}
-              id="standard-basic"
-              label="Gas Price"
-              variant="standard"
-              value={gasPrice}
-              onChange={(e) => setGasPrice(e.target.value)}
-            />
             <Button
               style={{ marginTop: 20 }}
               variant="outlined"
               onClick={() =>
-                sendTransaction(sender, receiver, amount, gasPrice)
+                sendTransferToken(sender, receiver, amount)
               }
             >
               Send Token
             </Button>
           </Stack>
-        </div> */}
         <main/>
       </TabPanel>
     </Box>

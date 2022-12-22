@@ -3,6 +3,6 @@
     margin: auto;
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    justify-content: flex-end;
+    gap: 27px;
 }

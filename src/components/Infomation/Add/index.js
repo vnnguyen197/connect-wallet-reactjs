@@ -67,6 +67,7 @@ const ABI = [
 export default function AddToken({ currentChain, currentBlance }) {
   const [tokenAddress, setTokenAddress] = useState("");
   const [token, setToken] = useState({ name: "", symbol: "", decimals: "" });
+  
   const getToken = async (e) => {
     setTokenAddress(e);
     try {

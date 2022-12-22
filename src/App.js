@@ -59,6 +59,7 @@ function App() {
     ethereum.removeListener("chainChanged", handleChangeNetwork);
     ethereum.removeListener("accountsChanged", handleChangeAccount);
   };
+  
 
   useEffect(() => {
     setListener();

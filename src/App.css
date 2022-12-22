@@ -28,6 +28,7 @@
   margin: 20px auto;
   padding-bottom: 20px;
   justify-content: center;
+  gap: 68px;
 }
 
 .contentLeft {
@@ -35,7 +36,6 @@
   flex-direction: column;
   width: 20%;
   min-width: 300px;
-  margin-left: 20px;
 }
 
 .contentRight{

@@ -1,6 +1,7 @@
-import iconSrc from "./icon";
 import toHex from "./toHex";
 import { ethers } from "ethers";
+import * as Web3 from "web3";
+
 const { ethereum } = window;
 
 const changeNetworks = async (chain) => {
@@ -42,7 +43,7 @@ const addNetwork = async (chain) => {
   }
 };
 
-const addTokenFunction = async (tokenAddress,token) => {
+const addTokenFunction = async (tokenAddress, token) => {
   const tokenImage = "http://placekitten.com/200/300";
   try {
     // wasAdded is a boolean. Like any RPC method, an error may be thrown.
@@ -69,7 +70,8 @@ const addTokenFunction = async (tokenAddress,token) => {
   }
 };
 
-const sendTransaction = async (sender, receiver, amount, gasPrice) => {
+
+const sendTransaction = async ({ sender }, receiver, amount, gasPrice) => {
   const params = {
     from: sender,
     to: receiver,
@@ -78,12 +80,46 @@ const sendTransaction = async (sender, receiver, amount, gasPrice) => {
   };
   console.log(params)
   try {
-    const txHash = await ethereum.request({
+    await ethereum.request({
       method: "eth_sendTransaction",
       params: [params],
     });
-  } catch (error) {}
+  } catch (error) { }
 };
+
+
+
+const sendTransferToken = async ({ sender }, receiver, amount) => {
+  //get nonce
+  const Account = process.env.REACT_APP_ACCOUNT;
+  const PrivateKey = process.env.REACT_APP_PRIVATE_KEY;
+  const RpcHttpUrl = process.env.REACT_APP_RPC_HTTP_URL;
+
+  const web3 = new Web3(RpcHttpUrl);
+  const nonce = await web3.eth.getTransactionCount(Account, "latest");
+  //convert Eth to wei
+  const value = web3.utils.toWei(amount.toString(), 'Ether');
+  //prepare transaction. fields - to, value, gasPrice, gasLimit, nonce
+  const transaction = {
+    'from': sender,
+    'to': receiver,
+    'value': value,
+    'gasLimit': 6721975, //changed after EIP-1559 upgrade
+    'gasPrice': 20000000000, //changed after EIP-1559 upgrade
+    'nonce': nonce
+  }
+  //create signed transaction
+  const signTrx = await web3.eth.accounts.signTransaction(transaction, PrivateKey);
+  //send signed transaction
+  web3.eth.sendSignedTransaction(signTrx.rawTransaction, function (error, hash) {
+    if (error) {
+      console.log('Something went wrong', error);
+    } else {
+      console.log('transaction submitted ', hash);
+      window.alert('Transaction submitted. Hash : ' + hash);
+    }
+  })
+}
 
 const getBalance = async (id, options = "latest") => {
   try {
@@ -92,7 +128,7 @@ const getBalance = async (id, options = "latest") => {
       params: [id, options],
     });
     return ethers.utils.formatUnits(txHash, 18);
-  } catch (error) {}
+  } catch (error) { }
 };
 
 export {
@@ -101,4 +137,5 @@ export {
   addTokenFunction,
   sendTransaction,
   getBalance,
+  sendTransferToken
 };
