@@ -5,7 +5,9 @@ import Box from "@mui/material/Box";
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useState } from "react";
-import { sendTransaction, sendTransferToken } from "../../../utils/ethereumMethods";
+import { sendTransaction } from "../../../utils/ethereumMethods";
+import TransferToken from "../../../utils/tranferToken";
+// import { transferERC20 } from "../../../utils/ethers";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -41,7 +43,8 @@ function a11yProps(index) {
   };
 }
 
-export default function SendToken({sender}) {
+export default function SendToken({ sender, provider }) {
+
   const [value, setValue] = useState(0);
   const [receiver, setReceiver] = useState("");
   const [amount, setAmount] = useState("");
@@ -50,15 +53,15 @@ export default function SendToken({sender}) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   return (
     <Box
-    style={{
-      background: "#cecece",
-      padding: 30,
-      borderRadius: 10,
-      marginTop: 20,
-    }}
+      style={{
+        background: "#cecece",
+        padding: 30,
+        borderRadius: 10,
+        marginTop: 20,
+      }}
     >
       <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
         <Tabs
@@ -79,71 +82,77 @@ export default function SendToken({sender}) {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-          <Stack>
-            <TextField
-              style={{ marginTop: 5 }}
-              id="standard-basic"
-              label="Receiver"
-              variant="standard"
-              value={receiver}
-              onChange={(e) => setReceiver(e.target.value)}
-            />
-            <TextField
-              style={{ marginTop: 5 }}
-              id="standard-basic"
-              label="Amount"
-              variant="standard"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <TextField
-              style={{ marginTop: 5 }}
-              id="standard-basic"
-              label="Gas Price"
-              variant="standard"
-              value={gasPrice}
-              onChange={(e) => setGasPrice(e.target.value)}
-            />
-            <Button
-              style={{ marginTop: 20 }}
-              variant="outlined"
-              onClick={() =>
-                sendTransaction(sender, receiver, amount, gasPrice)
-              }
-            >
-              Send ETH
-            </Button>
-          </Stack>
+        <Stack>
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Receiver"
+            variant="standard"
+            value={receiver}
+            onChange={(e) => setReceiver(e.target.value)}
+          />
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Amount"
+            variant="standard"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Gas Price"
+            variant="standard"
+            value={gasPrice}
+            onChange={(e) => setGasPrice(e.target.value)}
+          />
+          <Button
+            style={{ marginTop: 20 }}
+            variant="outlined"
+            onClick={() =>
+              sendTransaction(sender, receiver, amount, gasPrice)
+            }
+          >
+            Send ETH
+          </Button>
+        </Stack>
       </TabPanel>
       <TabPanel value={value} index={1}>
-          <Stack>
-            <TextField
-              style={{ marginTop: 5 }}
-              id="standard-basic"
-              label="Receiver"
-              variant="standard"
-              value={receiver}
-              onChange={(e) => setReceiver(e.target.value)}
-            />
-            <TextField
-              style={{ marginTop: 5 }}
-              id="standard-basic"
-              label="Amount"
-              variant="standard"
-              value={amount}
-              onChange={(e) => setAmount(e.target.value)}
-            />
-            <Button
-              style={{ marginTop: 20 }}
-              variant="outlined"
-              onClick={() =>
-                sendTransferToken(sender, receiver, amount)
-              }
-            >
-              Send Token
-            </Button>
-          </Stack>
-        <main/>
+        <Stack>
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Receiver"
+            variant="standard"
+            value={receiver}
+            onChange={(e) => setReceiver(e.target.value)}
+          />
+          <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Amount"
+            variant="standard"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
+          />
+          <Button
+            style={{ marginTop: 20 }}
+            variant="outlined"
+            // onClick={() =>
+            //   transferERC20(provider,
+            //     sender,
+            //     receiver,
+            //     amount)
+            // }
+            onClick={() =>
+              TransferToken(sender, receiver, amount)
+            }
+          >
+            Send Token
+          </Button>
+        </Stack>
+        <main />
       </TabPanel>
     </Box>
   );

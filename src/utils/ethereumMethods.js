@@ -78,7 +78,6 @@ const sendTransaction = async ({ sender }, receiver, amount, gasPrice) => {
     value: (+amount * Math.pow(10, 18)).toString(16),
     gasPrice,
   };
-  console.log(params)
   try {
     await ethereum.request({
       method: "eth_sendTransaction",
@@ -93,20 +92,19 @@ const sendTransferToken = async ({ sender }, receiver, amount) => {
   //get nonce
   const Account = process.env.REACT_APP_ACCOUNT;
   const PrivateKey = process.env.REACT_APP_PRIVATE_KEY;
-  const RpcHttpUrl = process.env.REACT_APP_RPC_HTTP_URL;
+  const RpcHttpUrl = "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161";
 
   const web3 = new Web3(RpcHttpUrl);
   const nonce = await web3.eth.getTransactionCount(Account, "latest");
   //convert Eth to wei
   const value = web3.utils.toWei(amount.toString(), 'Ether');
-  //prepare transaction. fields - to, value, gasPrice, gasLimit, nonce
-  const transaction = {
+  var transaction = {
     'from': sender,
+    'gas': "128028",
+    'gasPrice': web3.utils.toWei("0.00000002", "ether"),
+    'nonce': nonce,
     'to': receiver,
-    'value': value,
-    'gasLimit': 6721975, //changed after EIP-1559 upgrade
-    'gasPrice': 20000000000, //changed after EIP-1559 upgrade
-    'nonce': nonce
+    'value': value
   }
   //create signed transaction
   const signTrx = await web3.eth.accounts.signTransaction(transaction, PrivateKey);
