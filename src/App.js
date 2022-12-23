@@ -14,6 +14,7 @@ function App() {
   const [accountAddress, setAccountAddress] = useState("");
   const [currentChain, setCurrentChain] = useState();
   const [currentBlance, setCurrentBalance] = useState();
+  const [symbol, setSymbol] = useState()
   const connectWallet = async (chainId) => {
     try {
       const accounts = await ethereum.request({
@@ -38,6 +39,7 @@ function App() {
     );
     setTimeout(() => {
       setCurrentChain(network?.[0]?.name);
+      setSymbol(network?.[0].nativeCurrency.symbol)
     }, 0);
   }
 
@@ -78,7 +80,7 @@ function App() {
       />
       <div className="content">
         <div className="contentLeft">
-          <AddToken sender={accountAddress}  currentBlance={currentBlance} currentChain={currentChain} />
+          <AddToken sender={accountAddress} symbol={symbol} currentBlance={currentBlance} currentChain={currentChain} />
           <SendToken sender={accountAddress} currentChain={currentChain} />
         </div>
         <div className="contentRight"> 
