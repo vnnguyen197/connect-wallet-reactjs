@@ -1,9 +1,10 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addTokenFunction } from "../../../utils/ethereumMethods";
 import * as Web3 from "web3";
-
+import { getAddressesBalances } from "eth-balance-checker/lib/ethers";
+import * as Ethers from "ethers";
 const ABI = [
   {
     constant: true,
@@ -63,11 +64,33 @@ const ABI = [
     type: "function",
   },
 ];
-
-export default function AddToken({ currentChain, currentBlance }) {
+const tokenList = [
+  {
+    name: "Binance USD",
+    token: "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
+    symbol: "BUSD",
+  },
+  {
+    name: "Matic Token",
+    token: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+    symbol: "MATIC",
+  },
+  {
+    name: "SHIBA INU",
+    token: "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45",
+    symbol: "SHIB",
+  },
+];
+export default function AddToken({
+  sender,
+  currentChain,
+  currentBlance,
+  symbol,
+}) {
   const [tokenAddress, setTokenAddress] = useState("");
   const [token, setToken] = useState({ name: "", symbol: "", decimals: "" });
-  
+  const [three, setThree] = useState();
+  const ethers = Ethers.getDefaultProvider();
   const getToken = async (e) => {
     setTokenAddress(e);
     try {
@@ -87,12 +110,23 @@ export default function AddToken({ currentChain, currentBlance }) {
       });
     }
   };
-
+  useEffect(() => {
+    if (!three) {
+      getAddressesBalances(
+        ethers,
+        [sender],
+        tokenList.map((x) => x.token)
+      ).then((balances) => {
+        setThree(balances[sender]);
+        console.log(balances);
+      });
+    }
+  }, [ethers]);
   return (
     <div>
       <div
         style={{
-          background: "#cecece",
+          background: "#CECECE",
           padding: 30,
           borderRadius: 10,
         }}
@@ -103,12 +137,29 @@ export default function AddToken({ currentChain, currentBlance }) {
         </Stack>
         <Stack mt={1}>
           <Typography>Current Balance:</Typography>
-          <Typography>{currentBlance}</Typography>
+          <Typography>
+            {currentBlance} {symbol}
+          </Typography>
+        </Stack>
+        <Stack mt={1}>
+          <Typography>Random Token Balance:</Typography>
+          {three &&
+            tokenList.map((x, index) => (
+              <Stack key={index} ml={2} mt={1}>
+                <Typography sx={{ fontSize: 11 }}>
+                  Token Address: {tokenList[index].token.slice(0, 3)}...
+                  {tokenList[index].token.slice(-3)}
+                </Typography>
+                <Typography sx={{ fontSize: 11 }}>
+                  {three[tokenList[index].token]} {tokenList[index].symbol}
+                </Typography>
+              </Stack>
+            ))}
         </Stack>
       </div>
       <div
         style={{
-          background: "#cecece",
+          background: "#CECECE",
           padding: 30,
           borderRadius: 10,
           marginTop: 20,

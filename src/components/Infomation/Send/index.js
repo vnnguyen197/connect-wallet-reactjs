@@ -5,9 +5,7 @@ import Box from "@mui/material/Box";
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useState } from "react";
-import { sendTransaction } from "../../../utils/ethereumMethods";
-import TransferToken from "../../../utils/tranferToken";
-// import { transferERC20 } from "../../../utils/ethers";
+import { sendETH, sendToken } from "../../../utils/ethereumMethods";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,10 +41,11 @@ function a11yProps(index) {
   };
 }
 
-export default function SendToken({ sender, provider }) {
+export default function SendToken({ sender }) {
 
   const [value, setValue] = useState(0);
   const [receiver, setReceiver] = useState("");
+  const [tokenAddress, setTokenAddress] = useState("");
   const [amount, setAmount] = useState("");
   const [gasPrice, setGasPrice] = useState("");
 
@@ -89,7 +88,7 @@ export default function SendToken({ sender, provider }) {
             label="Receiver"
             variant="standard"
             value={receiver}
-            onChange={(e) => setReceiver(e.target.value)}
+            onChange={(e) => setTokenAddress(e.target.value)}
           />
           <TextField
             style={{ marginTop: 5 }}
@@ -111,7 +110,7 @@ export default function SendToken({ sender, provider }) {
             style={{ marginTop: 20 }}
             variant="outlined"
             onClick={() =>
-              sendTransaction(sender, receiver, amount, gasPrice)
+              sendETH(sender, receiver, amount, gasPrice)
             }
           >
             Send ETH
@@ -120,6 +119,14 @@ export default function SendToken({ sender, provider }) {
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Stack>
+        <TextField
+            style={{ marginTop: 5 }}
+            id="standard-basic"
+            label="Token address"
+            variant="standard"
+            value={tokenAddress}
+            onChange={(e) => setTokenAddress(e.target.value)}
+          />
           <TextField
             style={{ marginTop: 5 }}
             id="standard-basic"
@@ -139,14 +146,8 @@ export default function SendToken({ sender, provider }) {
           <Button
             style={{ marginTop: 20 }}
             variant="outlined"
-            // onClick={() =>
-            //   transferERC20(provider,
-            //     sender,
-            //     receiver,
-            //     amount)
-            // }
             onClick={() =>
-              TransferToken(sender, receiver, amount)
+              sendToken(sender, tokenAddress, receiver, amount)
             }
           >
             Send Token
