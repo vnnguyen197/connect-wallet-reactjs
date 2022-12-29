@@ -1,8 +1,11 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { addTokenFunction } from "../../../utils/ethereumMethods";
 import * as Web3 from "web3";
+import { getAddressesBalances } from "eth-balance-checker/lib/ethers";
+import * as Ethers from "ethers";
 import { getAddressesBalances } from "eth-balance-checker/lib/ethers";
 import * as Ethers from "ethers";
 const ABI = [
@@ -78,6 +81,29 @@ const tokenList = [
   {
     name: "SHIBA INU",
     token: "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45",
+    symbol: "SHIB",
+  },
+];
+export default function AddToken({
+  sender,
+  currentChain,
+  currentBlance,
+  symbol,
+}) {
+const tokenList = [
+  {
+    name: "Binance USD",
+    token: "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
+    symbol: "BUSD",
+  },
+  {
+    name: "Matic Token",
+    token: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
+    symbol: "MATIC",
+  },
+  {
+    name: "SHIBA INU",
+    token: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
     symbol: "SHIB",
   },
 ];
