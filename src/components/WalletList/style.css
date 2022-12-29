@@ -1,8 +1,5 @@
-.wallet-list{
-    width: 100%;
-    margin: auto;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 27px;
+.wallet-list {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: 20px;
 }

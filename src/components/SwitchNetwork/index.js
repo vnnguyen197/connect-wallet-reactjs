@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import { changeNetworks } from "../../utils/ethereumMethods";
 const networks = {
@@ -58,6 +58,7 @@ const changeNetwork = async ({ networkName, setError }) => {
 };
 
 const SwitchNetwork = ({ currentChain }) => {
+  const [show, setShow] = useState(false);
   const handleNetworkSwitch = async (networkName) => {
     await changeNetwork({ networkName });
   };
@@ -87,27 +88,43 @@ const SwitchNetwork = ({ currentChain }) => {
   };
   return (
     <div className="network">
-      <button
-        className="button"
-        disabled={handleDisabledButton() === 1}
-        onClick={() => handleNetworkSwitch("polygon")}
-      >
-        Switch to Polygon
-      </button>
-      <button
-        className="button"
-        disabled={handleDisabledButton() === 2}
-        onClick={() => handleNetworkSwitch("bsc")}
-      >
-        Switch to BSC
-      </button>
-      <button
-        className="button"
-        disabled={handleDisabledButton() === 3}
-        onClick={() => changeNetworks(5)}
-      >
-        Switch to Goerli
-      </button>
+      <div style={{
+        display: 'flex',
+        marginTop: 'auto',
+      }} onClick={() => setShow(!show)}>Change Network</div>
+      {show && (
+        <div style={{
+          position: 'absolute',
+          top: 25,
+          left: 0,
+          background: '#f5f5dc',
+          padding: '10px 10px',
+          borderRadius: '20px',
+          zIndex: 2000
+        }}>
+          <button
+            className="button"
+            disabled={handleDisabledButton() === 1}
+            onClick={() => handleNetworkSwitch("polygon")}
+          >
+            Switch to Polygon
+          </button>
+          <button
+            className="button"
+            disabled={handleDisabledButton() === 2}
+            onClick={() => handleNetworkSwitch("bsc")}
+          >
+            Switch to BSC
+          </button>
+          <button
+            className="button"
+            disabled={handleDisabledButton() === 3}
+            onClick={() => changeNetworks(5)}
+          >
+            Switch to Goerli
+          </button>
+        </div>
+      )}
     </div>
   );
 };

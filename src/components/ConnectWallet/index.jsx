@@ -19,7 +19,7 @@ const ConnectWallet = ({ isConnected, accountAddress, connectWallet }) => {
   }, []);
 
   return (
-    <div className='container'>
+    <div className='containers'>
       {haveMetamask ? (
         <>
           {isConnected ? (

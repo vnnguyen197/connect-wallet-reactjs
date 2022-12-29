@@ -27,9 +27,11 @@ export default function Chain({
   return (
     <Card
       sx={{
-        minWidth: 275,
-        maxWidth: 275,
+        minWidth: 248,
+        maxWidth: 248,
         display: "flex",
+        marginLeft: 2,
+        marginBottom: 2,
         justifyContents: "center",
         alignItems: "space-between",
         flexDirection: "column",

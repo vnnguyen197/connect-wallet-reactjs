@@ -3,7 +3,9 @@
     background-color: rgb(113, 89, 253);
     /* justify-content: center; */
     padding: 20px;
-    min-height: 35px;
+    min-height: 58px;
+    width: 100%;
+    margin: auto;
 }
 .search {
     position: relative;
@@ -24,5 +26,14 @@
 }
 .connect{
     position: absolute;
-    right: 20px;
+    right: 0px;
+    transform: translate(0%, -50%);
+    top: 50%
+}
+.switch {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    position: relative;
+    color: #fff;
 }

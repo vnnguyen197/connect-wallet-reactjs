@@ -6,10 +6,11 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import "./styles.css";
+import useLocalStorage from "../../../hooks/useLocalStorage";
 
 export default function Disconnect() {
   const [open, setOpen] = React.useState(false);
-
+  const [_,setValue] = useLocalStorage("login");
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -17,13 +18,12 @@ export default function Disconnect() {
   const handleClose = () => {
     setOpen(false);
   };
-
   const logout = () => {
+    setValue(null)
     window.location.reload(false);
   };
-
   return (
-    <div>
+    <div style={{marginLeft: 20}}>
       <Button
         variant="outlined"
         className="btn-logout"

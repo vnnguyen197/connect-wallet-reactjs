@@ -3,6 +3,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import "./style.css";
 import ConnectWallet from "../ConnectWallet";
 import SwitchNetwork from "../SwitchNetwork";
+import Container from "../Container";
 
 export default function Header({
   isConnected,
@@ -10,24 +11,36 @@ export default function Header({
   setAccountAddress,
   accountAddress,
   connectWallet,
-  currentChain
+  currentChain,
 }) {
   return (
     <div className="header">
-      {/* <div className="search">
+      <Container>
+        {/* <div className="search">
         <input placeholder="Search" />
         <SearchIcon />
       </div> */}
-      <div className="switch">{isConnected && <SwitchNetwork  currentChain={currentChain}/>}</div>
-      <div className="connect">
-        <ConnectWallet
-          connectWallet={connectWallet}
-          setAccountAddress={setAccountAddress}
-          accountAddress={accountAddress}
-          isConnected={isConnected}
-          setIsConnected={setIsConnected}
-        />
-      </div>
+        <div style={{
+          display:"flex",
+          width: '100%',
+          position: "relative",
+          
+
+        }}>
+          <div className="switch">
+            {isConnected && <SwitchNetwork currentChain={currentChain} />}
+          </div>
+          <div className="connect">
+            <ConnectWallet
+              connectWallet={connectWallet}
+              setAccountAddress={setAccountAddress}
+              accountAddress={accountAddress}
+              isConnected={isConnected}
+              setIsConnected={setIsConnected}
+            />
+          </div>
+        </div>
+      </Container>
     </div>
   );
 }

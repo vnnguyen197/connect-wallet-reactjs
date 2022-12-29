@@ -1,13 +1,13 @@
 import { Button, TextField, Typography } from "@mui/material";
 import { Stack } from "@mui/system";
 import React, { useEffect, useState } from "react";
-import React, { useEffect, useState } from "react";
-import { addTokenFunction } from "../../../utils/ethereumMethods";
+import {
+  addTokenFunction,
+  getTokenBalance,
+} from "../../../utils/ethereumMethods";
 import * as Web3 from "web3";
-import { getAddressesBalances } from "eth-balance-checker/lib/ethers";
-import * as Ethers from "ethers";
-import { getAddressesBalances } from "eth-balance-checker/lib/ethers";
-import * as Ethers from "ethers";
+import useLocalStorage from "../../../hooks/useLocalStorage";
+
 const ABI = [
   {
     constant: true,
@@ -69,44 +69,22 @@ const ABI = [
 ];
 const tokenList = [
   {
-    name: "Binance USD",
-    token: "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
-    symbol: "BUSD",
+    name: "Wrapped Ether",
+    token: "0xb4fbf271143f4fbf7b91a5ded31805e42b2208d6",
+    symbol: "WETH",
   },
   {
-    name: "Matic Token",
-    token: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-    symbol: "MATIC",
+    name: "Zeta",
+    token: "0xcc7bb2d219a0fc08033e130629c2b854b7ba9195",
+    symbol: "Zeta",
   },
   {
-    name: "SHIBA INU",
-    token: "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45",
-    symbol: "SHIB",
+    name: "UNISWAP",
+    token: "0x1f9840a85d5aF5bf1D1762F925BDADdC4201F984",
+    symbol: "UNI",
   },
 ];
-export default function AddToken({
-  sender,
-  currentChain,
-  currentBlance,
-  symbol,
-}) {
-const tokenList = [
-  {
-    name: "Binance USD",
-    token: "0x4Fabb145d64652a948d72533023f6E7A623C7C53",
-    symbol: "BUSD",
-  },
-  {
-    name: "Matic Token",
-    token: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
-    symbol: "MATIC",
-  },
-  {
-    name: "SHIBA INU",
-    token: "0x95aD61b0a150d79219dCF64E1E6Cc01f0B64C4cE",
-    symbol: "SHIB",
-  },
-];
+
 export default function AddToken({
   sender,
   currentChain,
@@ -115,8 +93,8 @@ export default function AddToken({
 }) {
   const [tokenAddress, setTokenAddress] = useState("");
   const [token, setToken] = useState({ name: "", symbol: "", decimals: "" });
-  const [three, setThree] = useState();
-  const ethers = Ethers.getDefaultProvider();
+  const [tokens, setTokens] = useState();
+  const [storedValue, setValue] = useLocalStorage("login");
   const getToken = async (e) => {
     setTokenAddress(e);
     try {
@@ -137,17 +115,19 @@ export default function AddToken({
     }
   };
   useEffect(() => {
-    if (!three) {
-      getAddressesBalances(
-        ethers,
-        [sender],
-        tokenList.map((x) => x.token)
-      ).then((balances) => {
-        setThree(balances[sender]);
-        console.log(balances);
-      });
+    if (sender) {
+      const newList = tokenList.map(async (x) => ({
+        ...x,
+        balance: await getTokenBalance(sender, x.token),
+      }));
+      Promise.all(newList).then((values) => {
+        setTokens(values);
+      }).catch(setTokens());
     }
-  }, [ethers]);
+  }, [ sender, currentChain]);
+  useEffect(() => {
+ 
+  }, [tokens]);
   return (
     <div>
       <div
@@ -168,19 +148,23 @@ export default function AddToken({
           </Typography>
         </Stack>
         <Stack mt={1}>
-          <Typography>Random Token Balance:</Typography>
-          {three &&
-            tokenList.map((x, index) => (
-              <Stack key={index} ml={2} mt={1}>
-                <Typography sx={{ fontSize: 11 }}>
-                  Token Address: {tokenList[index].token.slice(0, 3)}...
-                  {tokenList[index].token.slice(-3)}
-                </Typography>
-                <Typography sx={{ fontSize: 11 }}>
-                  {three[tokenList[index].token]} {tokenList[index].symbol}
-                </Typography>
-              </Stack>
-            ))}
+          <Typography>Tokens:</Typography>
+          {sender &&
+            tokens &&
+            tokens.map((x, index) => {
+              return (
+                <Stack key={index} ml={2} mt={1}>
+                  <Typography sx={{ fontSize: 11 }}>Token: {x.name}</Typography>
+                  <Typography sx={{ fontSize: 11 }}>
+                    Token Address: {x.token.slice(0, 3)}...
+                    {x.token.slice(-3)}
+                  </Typography>
+                  <Typography sx={{ fontSize: 11 }}>
+                    {(+x.balance).toFixed(5)} {x.symbol}
+                  </Typography>
+                </Stack>
+              );
+            })}
         </Stack>
       </div>
       <div
